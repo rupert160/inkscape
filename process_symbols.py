@@ -39,7 +39,7 @@ def create_icons(source_directory):
             container2 = etree.SubElement(container, "symbol")
             # Extract elements from the source tree and ...
             t2 = etree.SubElement(container2,'title')
-            t2.text = filename
+            t2.text = re.sub(r'[ -]+',' ', re.sub(r'^\d+-icon-service-(.*)\.svg$', r'\1', filename))
             container2.remove(container2.find('title'))
             container2.append(t2)
             # Insert extracted elements into the container in the destination tree
@@ -54,8 +54,7 @@ def create_icons(source_directory):
 def loop_through_icons():
     path='/home/rupert/Downloads/Azure_Public_Service_Icons_V20/Azure_Public_Service_Icons/Icons'
     for root, dirs, files in os.walk(path):
-        print(f"Current directory: {root}")
+        print(f"{os.path.basename(root)} - total icons: {len(files)}")
         create_icons(root)
-
 
 loop_through_icons()
